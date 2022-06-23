@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Wisata Lembang</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+	<div id="booking" class="section">
+		<div class="section-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-7 col-md-push-5">
+						<div class="booking-cta">
+							<h1>{{ selected_place }}</h1>
+
+                            <h3 class="twitter-account">{{ comments[curr_index].account }}</h3>
+                            {% if comments[curr_index].response == 'Positif' %}
+							    <p class="twitter-comment-positive">{{ comments[curr_index].comment }}</p>
+                            {% elif comments[curr_index].response == 'Negatif' %}
+							    <p class="twitter-comment-negative">{{ comments[curr_index].comment }}</p>
+                            {% else %}
+							    <p class="twitter-comment">{{ comments[curr_index].comment }}</p>
+                            {% endif %}
+
+                            <a href="{{ url_for('changeResponse', idx=curr_index, place=selected_place, origin_index=comments[curr_index].origin_index, response='Negatif') }}">
+                                <button class="response-button negative" id="negative-button">Komentar Negatif</button>
+                            </a>
+                            <a href="{{ url_for('changeResponse', idx=curr_index, place=selected_place, origin_index=comments[curr_index].origin_index, response='Positif') }}">
+                                <button class="response-button positive" id="positive-button">Komentar Positif</button>
+                            </a>
+
+                            <br><br>
+
+                            <a href="{{ url_for('home', idx=curr_index+1, place=selected_place) }}">
+                                <button class="no-bg-button next">Selanjutnya ></button>
+                            </a>
+                            <a href="{{ url_for('home', idx=curr_index-1, place=selected_place) }}">
+                                <button class="no-bg-button prev">< Sebelumnya</button>
+                            </a>
+						</div>
+					</div>
+					<div class="col-md-4 col-md-pull-7">
+						<div class="booking-form">
+							<form action="{{ url_for('home') }}" method="POST">
+								<div class="form-group">
+									<span class="form-label">Temapt Wisata</span>
+                                    <select class="form-control" name="place">
+                                    {% for place in places %}
+                                        {% if selected_place == place %}
+                                            <option value="{{ place }}" selected>{{ place }}</option>
+                                        {% else %}
+                                            <option value="{{ place }}">{{ place }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </select>
+                                    <span class="select-arrow"></span>
+								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<span class="form-label">Total Komentar</span>
+											<input class="form-control" type="number" value="{{ comments|length }}" readonly>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<span class="form-label">Positif</span>
+											<input class="form-control" type="text" value="{{ total_positive }}%" readonly>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<span class="form-label">Negatif</span>
+											<input class="form-control" type="text" value="{{ total_negative }}%" readonly>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<span class="form-label">N/A</span>
+											<input class="form-control" type="text" value="{{ total_n_a }}%" readonly>
+										</div>
+									</div>
+								</div>
+								<div class="form-btn">
+									<button class="submit-btn" type="submit">Cek Tempat Wisata</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+	
+</html>

@@ -1,0 +1,5 @@
+flask
+pandas==1.2.3
+xlsxwriter
+xlrd
+openpyxl
